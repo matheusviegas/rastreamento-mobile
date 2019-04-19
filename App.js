@@ -1,49 +1,91 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React, { Component } from "react";
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  AsyncStorage
+} from "react-native";
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+export default class App extends Component {
+  state = {
+    codigo: "",
+    historicoBuscas: []
+  };
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+  handleLogin = async () => {
+    const { codigo } = this.state;
 
-type Props = {};
-export default class App extends Component<Props> {
+    if (!codigo.length) return;
+
+   // await AsyncStorage.setItem("@RastreamentoAPP:codigo", username);
+
+    this.props.navigation.navigate("DetalhamentoPacote");
+  };
+
+  handleInputChange = codigo => {
+    this.setState({ codigo });
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <View style={styles.content}>
+          <TextInput
+            style={styles.input}
+            placeholder="Código do pacote"
+            value={this.state.codigo}
+            onChangeText={this.handleInputChange}
+            onSubmitEditing={this.handleLogin}
+            returnKeyType="send"
+          />
+
+          <TouchableOpacity onPress={this.handleLogin} style={styles.button}>
+            <Text style={styles.buttonText}>Acompanhar Entrega</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: "#FFF"
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+
+  content: {
+    flex: 1,
+    //justifyContent: "center",
+    alignItems: "center",
+    padding: 30
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+
+  input: {
+    borderWidth: 1,
+    borderColor: "#DDD",
+    borderRadius: 5,
+    height: 44,
+    paddingHorizontal: 15,
+    alignSelf: "stretch"
+    //marginTop: 30
   },
+
+  button: {
+    height: 44,
+    alignSelf: "stretch",
+    marginTop: 10,
+    backgroundColor: "#2276b1",
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  buttonText: {
+    color: "#FFF",
+    fontSize: 16,
+    fontWeight: "bold"
+  }
 });
