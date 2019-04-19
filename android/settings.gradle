@@ -1,0 +1,3 @@
+rootProject.name = 'RastreamentoAPP'
+
+include ':app'
