@@ -131,7 +131,9 @@ export default class Home extends Component {
           </TouchableOpacity>
         </View>
         <View style={styles.lista}>
-          <Text style={styles.titulo}>Histórico de Buscas</Text>
+          {this.state.historicoBuscas.length > 0 && (
+            <Text style={styles.titulo}>Histórico de Buscas</Text>
+          )}
           <FlatList
             data={this.state.historicoBuscas}
             keyExtractor={historico => historico.codigo}
