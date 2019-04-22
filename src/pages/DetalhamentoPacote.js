@@ -5,7 +5,8 @@ import {
   StyleSheet,
   FlatList,
   TouchableOpacity,
-  Alert
+  Alert,
+  ToastAndroid
 } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialIcons";
@@ -68,7 +69,7 @@ export default class DetalhamentoPacote extends Component {
       const response = await api.get(`pacote/${codigoPacote}`);
 
       if (response.data === null) {
-        alert("Pacote nao encontrado!");
+        ToastAndroid.show("Pacote não encontrado.", ToastAndroid.SHORT);
         return;
       }
 

@@ -6,7 +6,9 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  FlatList
+  FlatList,
+  ToastAndroid,
+  Button
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -36,7 +38,7 @@ export default class Home extends Component {
 
     for (var i = 0; i < this.state.historicoBuscas.length; i++) {
       if (this.state.historicoBuscas[i].codigo == codigo) {
-        alert("Pacote já cadastrado!");
+        ToastAndroid.show("Pacote já cadastrado.", ToastAndroid.SHORT);
         return;
       }
     }
@@ -44,7 +46,7 @@ export default class Home extends Component {
     const response = await api.get(`pacote/${codigo}`);
 
     if (response.data === null) {
-      alert("Pacote nao encontrado!");
+      ToastAndroid.show("Pacote não encontrado.", ToastAndroid.SHORT);
       return;
     }
 
@@ -91,7 +93,7 @@ export default class Home extends Component {
       JSON.stringify(this.state.historicoBuscas)
     );
 
-    alert("Pacote (" + codigo + ") deletado!");
+    ToastAndroid.show("Pacote (" + codigo + ") deletado!", ToastAndroid.SHORT);
   };
 
   renderSeparator = () => {
@@ -137,7 +139,6 @@ export default class Home extends Component {
           <FlatList
             data={this.state.historicoBuscas}
             keyExtractor={historico => historico.codigo}
-            ItemSeparatorComponent={this.renderSeparator}
             renderItem={({ item }) => (
               <TouchableOpacity
                 style={styles.itemLista}
@@ -197,7 +198,14 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#FFF"
   },
-  itemLista: {},
+  itemLista: {
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: "#dedede",
+    padding: 5,
+    marginBottom: 5,
+    backgroundColor: "#f9f9f9"
+  },
   textoItemLista: {
     fontSize: 16,
     fontWeight: "bold"
